@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WifiRegistrationFinalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="CityName" />
+    </Key>
+    <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PostalCode" Type="int" Nullable="false" />
+    <Property Name="CityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Complex">
+    <Key>
+      <PropertyRef Name="ComplexName" />
+    </Key>
+    <Property Name="ComplexId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ComplexName" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="CityName" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Unit">
+    <Key>
+      <PropertyRef Name="UnitNumber" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UnitNumber" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="OwnerName" Type="nvarchar" MaxLength="50" />
+    <Property Name="OwnerCell" Type="nvarchar" MaxLength="50" />
+    <Property Name="Memo" Type="nvarchar(max)" />
+    <Property Name="ComplexName" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="ValidMac">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UnitNum" Type="nchar" MaxLength="10" />
+    <Property Name="Mac" Type="nvarchar" MaxLength="50" />
+    <Property Name="Expire" Type="date" />
+    <Property Name="DeviceType" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Table_ToTable">
+    <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
+    <End Role="ValidMac" Type="Self.ValidMac" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Unit">
+        <PropertyRef Name="UnitNumber" />
+      </Principal>
+      <Dependent Role="ValidMac">
+        <PropertyRef Name="UnitNum" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_ToTable2">
+    <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+    <End Role="Complex" Type="Self.Complex" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="CityName" />
+      </Principal>
+      <Dependent Role="Complex">
+        <PropertyRef Name="CityName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_ToTable3">
+    <End Role="Complex" Type="Self.Complex" Multiplicity="0..1" />
+    <End Role="Unit" Type="Self.Unit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Complex">
+        <PropertyRef Name="ComplexName" />
+      </Principal>
+      <Dependent Role="Unit">
+        <PropertyRef Name="ComplexName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WifiRegistrationFinalModelStoreContainer">
+    <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Complex" EntityType="Self.Complex" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Unit" EntityType="Self.Unit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ValidMac" EntityType="Self.ValidMac" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+      <End Role="Unit" EntitySet="Unit" />
+      <End Role="ValidMac" EntitySet="ValidMac" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_ToTable2" Association="Self.FK_Table_ToTable2">
+      <End Role="Address" EntitySet="Address" />
+      <End Role="Complex" EntitySet="Complex" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_ToTable3" Association="Self.FK_Table_ToTable3">
+      <End Role="Complex" EntitySet="Complex" />
+      <End Role="Unit" EntitySet="Unit" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

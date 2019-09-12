@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WifiRegistrationFinalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="CityName" />
+    </Key>
+    <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostalCode" Type="Int32" Nullable="false" />
+    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Complexes" Relationship="Self.FK_Table_ToTable2" FromRole="Address" ToRole="Complex" />
+  </EntityType>
+  <EntityType Name="Complex">
+    <Key>
+      <PropertyRef Name="ComplexName" />
+    </Key>
+    <Property Name="ComplexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ComplexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Address" Relationship="Self.FK_Table_ToTable2" FromRole="Complex" ToRole="Address" />
+    <NavigationProperty Name="Units" Relationship="Self.FK_Table_ToTable3" FromRole="Complex" ToRole="Unit" />
+  </EntityType>
+  <EntityType Name="Unit">
+    <Key>
+      <PropertyRef Name="UnitNumber" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="OwnerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OwnerCell" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ComplexName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Complex" Relationship="Self.FK_Table_ToTable3" FromRole="Unit" ToRole="Complex" />
+    <NavigationProperty Name="ValidMacs" Relationship="Self.FK_Table_ToTable" FromRole="Unit" ToRole="ValidMac" />
+  </EntityType>
+  <EntityType Name="ValidMac">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UnitNum" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Mac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Expire" Type="DateTime" Precision="0" />
+    <Property Name="DeviceType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Unit" Relationship="Self.FK_Table_ToTable" FromRole="ValidMac" ToRole="Unit" />
+  </EntityType>
+  <Association Name="FK_Table_ToTable2">
+    <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+    <End Role="Complex" Type="Self.Complex" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Address">
+        <PropertyRef Name="CityName" />
+      </Principal>
+      <Dependent Role="Complex">
+        <PropertyRef Name="CityName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_ToTable3">
+    <End Role="Complex" Type="Self.Complex" Multiplicity="0..1" />
+    <End Role="Unit" Type="Self.Unit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Complex">
+        <PropertyRef Name="ComplexName" />
+      </Principal>
+      <Dependent Role="Unit">
+        <PropertyRef Name="ComplexName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_ToTable">
+    <End Role="Unit" Type="Self.Unit" Multiplicity="0..1" />
+    <End Role="ValidMac" Type="Self.ValidMac" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Unit">
+        <PropertyRef Name="UnitNumber" />
+      </Principal>
+      <Dependent Role="ValidMac">
+        <PropertyRef Name="UnitNum" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WifiRegistrationFinalEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="Self.Address" />
+    <EntitySet Name="Complexes" EntityType="Self.Complex" />
+    <EntitySet Name="Units" EntityType="Self.Unit" />
+    <EntitySet Name="ValidMacs" EntityType="Self.ValidMac" />
+    <AssociationSet Name="FK_Table_ToTable2" Association="Self.FK_Table_ToTable2">
+      <End Role="Address" EntitySet="Addresses" />
+      <End Role="Complex" EntitySet="Complexes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_ToTable3" Association="Self.FK_Table_ToTable3">
+      <End Role="Complex" EntitySet="Complexes" />
+      <End Role="Unit" EntitySet="Units" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+      <End Role="Unit" EntitySet="Units" />
+      <End Role="ValidMac" EntitySet="ValidMacs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

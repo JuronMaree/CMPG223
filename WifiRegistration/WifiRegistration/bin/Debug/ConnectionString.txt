@@ -1,0 +1,1 @@
+Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="C:\Users\gerri\Documents\NWU\CMPG223\WifiRegistration\WifiRegistration\WifiRegistrationFinal.mdf";Integrated Security=True 

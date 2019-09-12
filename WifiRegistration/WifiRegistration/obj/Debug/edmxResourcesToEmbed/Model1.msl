@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WifiRegistrationFinalModelStoreContainer" CdmEntityContainer="WifiRegistrationFinalEntities">
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="WifiRegistrationFinalModel.Address">
+        <MappingFragment StoreEntitySet="Address">
+          <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Complexes">
+      <EntityTypeMapping TypeName="WifiRegistrationFinalModel.Complex">
+        <MappingFragment StoreEntitySet="Complex">
+          <ScalarProperty Name="ComplexId" ColumnName="ComplexId" />
+          <ScalarProperty Name="ComplexName" ColumnName="ComplexName" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Units">
+      <EntityTypeMapping TypeName="WifiRegistrationFinalModel.Unit">
+        <MappingFragment StoreEntitySet="Unit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UnitNumber" ColumnName="UnitNumber" />
+          <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+          <ScalarProperty Name="OwnerCell" ColumnName="OwnerCell" />
+          <ScalarProperty Name="Memo" ColumnName="Memo" />
+          <ScalarProperty Name="ComplexName" ColumnName="ComplexName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ValidMacs">
+      <EntityTypeMapping TypeName="WifiRegistrationFinalModel.ValidMac">
+        <MappingFragment StoreEntitySet="ValidMac">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UnitNum" ColumnName="UnitNum" />
+          <ScalarProperty Name="Mac" ColumnName="Mac" />
+          <ScalarProperty Name="Expire" ColumnName="Expire" />
+          <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
